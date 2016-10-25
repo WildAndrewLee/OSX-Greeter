@@ -83,7 +83,7 @@
 	<body>
 		<div id="wrapper">
 			<span>
-				<img src=/var/lib/AccountsService/andrew.jpg />
+				<img src="/var/lib/AccountsService/andrew.jpg" />
 			</span>
 			<form>
 				<input id="password" type="password" placeholder="Password" />
@@ -105,9 +105,10 @@
 		}, false);
 
 		// There should only be one user on my computer...
-		var __user__ = lightdm.users[0].username;
+		var __user__ = lightdm.users[0];
+		var __username__ = __user__.username;
 
-		lightdm.authenticate(__user__);
+		lightdm.authenticate(__username__);
 		</script>
 	</body>
 </html>

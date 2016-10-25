@@ -1,0 +1,1 @@
+A custom theme for lightdm-webkit2-greeter. This is for my own use and so it only supports logging into one user (me).
