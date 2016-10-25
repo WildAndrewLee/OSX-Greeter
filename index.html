@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="animate.min.css">
+        <link rel="stylesheet" href="animate.css">
         <style>
         html {
             background: url(/var/lib/AccountsService/wallpapers/lightdm-andrew.jpg) no-repeat;
@@ -90,16 +90,33 @@
                 <input id="password" type="password" placeholder="Password" />
             </form>
         </div>
+        <!--
+        <script src="LightDMMock.js"></script>
+        <script>
+        if(!("lightdm" in window)) {
+		    var LightDMMock = LightDMMock || {};
+		    window.lightdm = new LightDMMock(true, false, false);
+		}
+		</script>
+        -->
         <script>
         window.authentication_complete = function(){
             document.getElementById('password').classList.remove('shake');
 
             if(lightdm.is_authenticated){
-                lightdm.login(lightdm.authentication_user, lightdm.default_session)
+                lightdm.start_session_sync(lightdm.default_session);
             }
             else{
                 document.getElementById('password').classList.add('wrong', 'animated', 'shake');
             }
+        };
+
+        window.show_prompt = function(){
+            // stub
+        };
+
+        window.show_message = function(){
+            console.log(arguments);
         };
 
         document.querySelector('form').addEventListener('submit', function(e){
@@ -109,7 +126,7 @@
 
         // There should only be one user on my computer...
         var __user__ = lightdm.users[0];
-        var __username__ = __user__.username;
+        var __username__ = __user__.username || __user__.name;
 
         lightdm.authenticate(__username__);
         </script>
