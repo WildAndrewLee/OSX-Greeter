@@ -1,0 +1,6 @@
+[theme]
+name=custom-greeter
+description=A random custom greeter based off of the OSX login manager.
+engine=lightdm-webkit2-greeter
+url=index.html
+session=gnome

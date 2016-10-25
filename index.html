@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<style>
+		html {
+			background: url(/var/lib/AccountsService/wallpapers/lightdm-andrew.jpg) no-repeat;
+			font-family: Open Sans;
+		}
+
+		#wrapper {
+			width: 300px;
+			box-sizing: border-box;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			text-transform: center;
+		}
+
+		input {
+			width: 100%;
+			box-sizing: border-box;
+			margin: 10px 0px;
+			padding: 10px 15px;
+			border-radius: 3px;
+			border: none;
+			outline: none;
+		}
+
+		span {
+			height: 120px;
+			width: 120px;
+			border-radius: 999px;
+			overflow: hidden;
+			display: block;
+			margin: 0px auto 10px;
+		}
+
+		span img {
+			max-height: 150px;
+		}
+
+		input::-webkit-input-placeholder {
+			color: rgba(0, 0, 0, 0.7);
+		}
+
+		.wrong::-webkit-input-placeholder {
+			color: #fff;
+		}
+
+		input[type=text], input[type=password] {
+			background: rgba(255, 255, 255, 0.45);
+			transition: 0.3s background;
+			color: rgba(0, 0, 0, 0.7);
+		}
+
+		input[type=text]:hover, input[type=password]:hover {
+			background: rgba(255, 255, 255, 0.7);
+		}
+
+		input[type=text]:focus, input[type=password]:focus {
+			background: #fff;
+			color: #333;
+			transition: none;
+		}
+
+		input[type=submit] {
+			background: #498fff;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type=submit]:hover {
+			background: #4286f4;
+		}
+
+		input[type=password].wrong {
+			background: #ff5649;
+			color: #fff;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<span>
+				<img src=/var/lib/AccountsService/andrew.jpg />
+			</span>
+			<form>
+				<input id="password" type="password" placeholder="Password" />
+			</form>
+		</div>
+		<script>
+		window.authentication_complete = function(){
+			if(lightdm.is_authenticated){
+				lightdm.login(lightdm.authenticated_user, lightdm.default_session)
+			}
+			else{
+				document.getElementById('password').className = 'wrong';
+			}
+		};
+
+		document.querySelector('form').addEventListener('submit', function(e){
+			e.preventDefault();
+			lightdm.respond(document.getElementById('password').value);
+		}, false);
+
+		// There should only be one user on my computer...
+		var __user__ = lightdm.users[0].username;
+
+		lightdm.authenticate(__user__);
+		</script>
+	</body>
+</html>
