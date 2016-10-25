@@ -92,7 +92,7 @@
 		<script>
 		window.authentication_complete = function(){
 			if(lightdm.is_authenticated){
-				lightdm.login(lightdm.authenticated_user, lightdm.default_session)
+				lightdm.login(lightdm.authentication_user, lightdm.default_session)
 			}
 			else{
 				document.getElementById('password').className = 'wrong';
