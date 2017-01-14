@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="animate.css">
         <style>
         html {
-            background: url(/var/lib/AccountsService/wallpapers/lightdm-andrew.jpg) no-repeat;
+            background: url(img/bg.jpg) no-repeat;
             font-family: Open Sans;
         }
 
@@ -84,12 +84,13 @@
     <body>
         <div id="wrapper">
             <span>
-                <img src="/var/lib/AccountsService/icons/andrew.jpg" />
+                <img src="img/face.jpg" />
             </span>
             <form>
                 <input id="password" type="password" placeholder="Password" />
             </form>
         </div>
+        <script src="jquery.min.js"></script>
         <!--
         <script src="LightDMMock.js"></script>
         <script>
@@ -100,36 +101,38 @@
 		</script>
         -->
         <script>
-        window.authentication_complete = function(){
-            document.getElementById('password').classList.remove('shake');
+	$(document).ready(function(){
+		window.authentication_complete = function(){
+		    document.getElementById('password').classList.remove('shake', 'animated');
 
-            if(lightdm.is_authenticated){
-                lightdm.start_session_sync(lightdm.default_session);
-            }
-            else{
-                document.getElementById('password').classList.add('wrong', 'animated', 'shake');
+		    if(lightdm.is_authenticated){
+			lightdm.start_session_sync(lightdm.default_session);
+		    }
+		    else{
+			document.getElementById('password').classList.add('wrong', 'animated', 'shake');
+			lightdm.authenticate(__username__);
+		    }
+		};
+
+		window.show_prompt = function(){
+		    // stub
+		};
+
+		window.show_message = function(){
+		    console.log(arguments);
+		};
+
+		document.querySelector('form').addEventListener('submit', function(e){
+		    e.preventDefault();
+		    lightdm.respond(document.getElementById('password').value);
+		}, false);
+
+		// There should only be one user on my computer...
+		var __user__ = lightdm.users[0];
+		var __username__ = __user__.username || __user__.name;
+
 		lightdm.authenticate(__username__);
-            }
-        };
-
-        window.show_prompt = function(){
-            // stub
-        };
-
-        window.show_message = function(){
-            console.log(arguments);
-        };
-
-        document.querySelector('form').addEventListener('submit', function(e){
-            e.preventDefault();
-            lightdm.respond(document.getElementById('password').value);
-        }, false);
-
-        // There should only be one user on my computer...
-        var __user__ = lightdm.users[0];
-        var __username__ = __user__.username || __user__.name;
-
-        lightdm.authenticate(__username__);
+	});
         </script>
     </body>
 </html>
